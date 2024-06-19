@@ -1,0 +1,50 @@
+Tìm đội bóng ở bảng A
+SELECT       dbo.[Đội bóng].madoi, dbo.[Đội bóng].tendoi, dbo.[bảng đấu].bangdau
+FROM            dbo.[trận đấu] INNER JOIN
+                         dbo.[kết quả vòng đấu] ON dbo.[trận đấu].matran = dbo.[kết quả vòng đấu].matran CROSS JOIN
+                         dbo.[bảng đấu] INNER JOIN
+                         dbo.[Đội bóng] ON dbo.[bảng đấu].madoi = dbo.[Đội bóng].madoi INNER JOIN
+                         dbo.[kết quả bảng đấu] ON dbo.[bảng đấu].madoi = dbo.[kết quả bảng đấu].madoi
+GROUP BY dbo.[Đội bóng].madoi, dbo.[Đội bóng].tendoi, dbo.[bảng đấu].
+tính điểm của các dội qua các vòng
+SELECT
+[trận đấu].doinha AS đội_nhà,
+[trận đấu].doikhach AS đội_khách,
+SUM(CASE
+WHEN [kết quả vòng đấu].banthangdoinha > [kết quả vòng đấu].banthangdoikhach THEN 3
+WHEN [kết quả vòng đấu].banthangdoinha < [kết quả vòng đấu].banthangdoikhach THEN 0
+ELSE 1
+END) AS điểm_đội_nhà,
+SUM(CASE
+WHEN [kết quả vòng đấu].banthangdoikhach > [kết quả vòng đấu].banthangdoinha THEN 3
+WHEN [kết quả vòng đấu].banthangdoikhach < [kết quả vòng đấu].banthangdoinha THEN 0
+ELSE 1
+END) AS điểm_đội_khách
+FROM
+dbo.[trận đấu]
+INNER JOIN
+dbo.[kết quả vòng đấu] ON dbo.[trận đấu].matran = dbo.[kết quả vòng đấu].matran
+GROUP BY
+[trận đấu].doinha,
+[trận đấu].doikhach;
+lịch thi đấu của pháp
+SELECT
+[trận đấu].doinha,
+[trận đấu].doikhach,
+[trận đấu].ngaydau
+FROM
+dbo.[trận đấu]
+INNER JOIN
+dbo.[kết quả vòng đấu] ON dbo.[trận đấu].matran = dbo.[kết quả vòng đấu].matran
+CROSS JOIN
+dbo.[bảng đấu]
+INNER JOIN
+dbo.[Đội bóng] ON dbo.[bảng đấu].madoi = dbo.[Đội bóng].madoi
+INNER JOIN
+dbo.[kết quả bảng đấu] ON dbo.[bảng đấu].madoi = dbo.[kết quả bảng đấu].madoi
+WHERE
+dbo.[trận đấu].doinha = 'Pháp' OR dbo.[trận đấu].doikhach = 'Pháp'
+GROUP BY
+dbo.[trận đấu].doinha,
+dbo.[trận đấu].doikhach,
+dbo.[trận đấu].ngaydau;
