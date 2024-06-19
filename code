@@ -1,0 +1,80 @@
+CREATE TABLE doibong (
+madoi INT PRIMARY KEY AUTO_INCREMENT,
+tendoi VARCHAR(50) NOT NULL);
+CREATE TABLE trabdau (
+matran INT PRIMARY KEY AUTO_INCREMENT,
+doinha INT,
+doikhach INT,
+ngaythidau DATE,
+FOREIGN KEY (doinha) REFERENCES doibong(madoi),
+FOREIGN KEY (dokhach) REFERENCES doibong(madoi));
+CREATE TABLE bangdiem(
+madoi INT PRIMARY KEY,
+tendoiINT DEFAULT 0,
+thang INT DEFAULT 0,
+hoa INT DEFAULT 0,
+thua INT DEFAULT 0,
+banthang INT DEFAULT 0,
+banthua INT DEFAULT 0,
+hieusoINT DEFAULT 0,
+diem INT DEFAULT 0,
+FOREIGN KEY (madoi) REFERENCES doibong(madoi));
+CREATE TABLE KetQuaVongDau (
+ma_tran INT PRIMARY KEY AUTO_INCREMENT,
+banthangdoinha INT,
+banthangdoikhach INT
+CREATE TABLE TranDau (
+matran INT PRIMARY KEY AUTO_INCREMENT,
+doinha INT,
+doikhach INT,
+ngaythidau DATE,
+FOREIGN KEY (doinha) REFERENCES DoiBong(madoi),
+FOREIGN KEY (doikhach) REFERENCES DoiBong(madoi));
+CREATE TABLE BangDau (
+madoi INT PRIMARY KEY,
+bangdau VARCHAR(50) NOT NULL
+);
+--thêm dữ vào bảng đội bóng
+INSERT INTO doibong (tendoi, madoi) VALUES ('Pháp,1'), ('Hà Lan,2'), ('Ba Lan,3'), ('Áo,4');
+--thêm dữ liệu bảng trận đấu
+INSERT INTO trabdau (doinha, doikhach, ngaythidau)
+VALUES
+(1, 2, '2024-06-16'),
+(3, 4, '2024-06-16'),
+(2, 3, '2024-06-20'),
+(1, 4, '2024-06-20');
+(1, 3, '2024-06-24'),
+(2, 4, '2024-06-24');
+FOREIGN KEY (madoi) REFERENCES doibong(madoi));
+--them dư liệu bảng điểm
+INSERT INTO bangdiem (madoi, tendoi, thang, thua, hoa, banthang, banthua, hieuso, diem)
+VALUES
+(1, 'Pháp', 3, 0, 0, 10, 3, 7, 9),
+(2, 'Hà Lan',2 ,1, 0, 7, 4, 3, 6),
+(3, 'Ba Lan', 0, 2, 1, 2, 4, -2, 1),
+(4, 'Áo', 0, 2, 1, 2, 6, -4, 1);
+--thêm dữ liệu bảng kết quả vòng đấu
+INSERT INTO KetQuaVongDau (matran, banthangdoinha, banthangdoikhach)
+VALUES
+(1,3, 2),
+(2,2, 2),
+(3,3, 1),
+(4,0, 3),
+(5,0, 4),
+(6,4, 1);
+--thêm dữ liệu cho bảng trận đấu
+INSERT INTO TranDau (matran,doi_nha, doi_khach, ngay_thi_dau)
+VALUES
+(1, 'Pháp','Hà Lan', '2024-06-16'),
+(2, 'Ba Lan','Áo', '2024-06-16'),
+(3, 'Hà Lan','Ba Lan', '2024-06-20'),
+(4, 'Áo','Pháp', '2024-06-20'),
+(5, 'Pháp','Ba Lan', '2024-06-24'),
+(6, 'Hà Lan','Áo', '2024-06-24');
+--thêm dữ liệu bảng đấu
+INSERT INTO BangDau (ma_doi, bang_dau)
+VALUES
+(1, 'A'),
+(2, 'A'),
+(3, 'A'),
+(4, 'A');
