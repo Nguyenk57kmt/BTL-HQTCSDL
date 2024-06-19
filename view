@@ -1,0 +1,16 @@
+CREATE VIEW v_ketqua_trandau AS
+SELECT 
+    td.matran,
+    d1.tendoi AS doinha,
+    d2.tendoi AS doikhach,
+    kqvd.banthangdoinha,
+    kqvd.banthangdoikhach,
+    td.ngaythidau
+FROM 
+    trabdau td
+INNER JOIN 
+    doibong d1 ON td.doinha = d1.madoi
+INNER JOIN 
+    doibong d2 ON td.doikhach = d2.madoi
+INNER JOIN 
+    KetQuaVongDau kqvd ON td.matran = kqvd.ma_tran;
